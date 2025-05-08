@@ -1,0 +1,76 @@
+"use client";
+
+import DataTable from "@/components/general/DataTable";
+import DataTableTech from "@/components/general/DataTableTech";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+
+type UserProps = {
+	id: number;
+	lastName: string;
+	firstName: string;
+	username: string | null;
+	password: string | null;
+	roleId: number;
+	role: string;
+};
+
+type RowType = {
+	barangay: string;
+	pollingPlace: string;
+	totalVoters: number;
+	cluster: number;
+	isCast: boolean;
+	gusTambunting: number;
+	brianYamsuan: number;
+	rodelEspinola: number;
+	florentinoBaguio: number;
+	rolandoAguilar: number;
+};
+
+export default function Page() {
+	const [token, setToken] = useState<UserProps>();
+
+	useEffect(() => {
+		const userToken = JSON.parse(localStorage.getItem("token") || "null");
+		setToken(userToken);
+
+		console.log("Token from localStorage:", userToken);
+	}, []);
+
+	const { data = [], isLoading } = useQuery<RowType[]>({
+		queryKey: ["votecast"],
+		enabled: !!token,
+		queryFn: async () => {
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_URL}/api/technical`,
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ userId: token?.id, role: token?.role }),
+				}
+			);
+
+			if (!response.ok) {
+				console.error("Failed to fetch datasheet");
+				return []; // fallback to empty array on error
+			}
+
+			const data: RowType[] = await response.json();
+			return data ?? []; // ensure it always returns an array
+		},
+	});
+
+	// const response = fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/datasheet`, {
+	// 	method: "GET",
+	// 	headers: { "Content-Type": "application/json" },
+	// 	body: JSON.stringify({ userId: token?.id, role: token?.role }),
+	// });
+	// const data = response.json();
+
+	return token?.role === "Administrator" ? (
+		<DataTable data={data} />
+	) : (
+		<DataTableTech data={data} />
+	);
+}
