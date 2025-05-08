@@ -61,13 +61,6 @@ export default function Page() {
 		},
 	});
 
-	// const response = fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/datasheet`, {
-	// 	method: "GET",
-	// 	headers: { "Content-Type": "application/json" },
-	// 	body: JSON.stringify({ userId: token?.id, role: token?.role }),
-	// });
-	// const data = response.json();
-
 	return token?.role === "Administrator" ? (
 		<DataTable data={data} />
 	) : (
