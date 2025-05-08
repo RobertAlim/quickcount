@@ -1,6 +1,5 @@
 import { db } from "@/db"; // adjust path if different
 import { datasheet } from "@/db/schema"; // adjust based on your structure
-import { Console } from "console";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
