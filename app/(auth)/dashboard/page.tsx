@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ComboBox } from "@/components/ui/combobox";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 type UserProps = {
 	id: number;
@@ -137,101 +138,103 @@ export default function DashboardPage() {
 
 	return (
 		<RequireAuth>
-			<div className="flex items-center justify-center min-h-screen">
-				<div className="w-full max-w-md p-6 bg-white shadow rounded">
-					<div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
-						<h1 className="text-2xl font-bold mb-4">Cast Your Vote</h1>
+			<Suspense fallback={<div>Loading...</div>}>
+				<div className="flex items-center justify-center min-h-screen">
+					<div className="w-full max-w-md p-6 bg-white shadow rounded">
+						<div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
+							<h1 className="text-2xl font-bold mb-4">Cast Your Vote</h1>
 
-						<label className="block mb-2">Cluster Number:</label>
-						<ComboBox
-							options={data}
-							value={cluster}
-							onChange={(val) => {
-								setCluster(val);
-								handleVoteChange(val);
-							}}
-							placeholder="Select cluster..."
-						/>
+							<label className="block mb-2">Cluster Number:</label>
+							<ComboBox
+								options={data}
+								value={cluster}
+								onChange={(val) => {
+									setCluster(val);
+									handleVoteChange(val);
+								}}
+								placeholder="Select cluster..."
+							/>
 
-						<h2 className="text-lg font-semibold mb-2">Candidates</h2>
+							<h2 className="text-lg font-semibold mb-2">Candidates</h2>
 
-						<label className="block">Gus Tambunting:</label>
-						<input
-							type="number"
-							value={votes.gusTambunting}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									gusTambunting: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Gus Tambunting:</label>
+							<input
+								type="number"
+								value={votes.gusTambunting}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										gusTambunting: parseInt(e.target.value),
+									})
+								}
+								className="w-full border rounded p-2 mb-4"
+							/>
 
-						<label className="block">Brian Yamsuan:</label>
-						<input
-							type="number"
-							value={votes.brianYamsuan}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									brianYamsuan: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Brian Yamsuan:</label>
+							<input
+								type="number"
+								value={votes.brianYamsuan}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										brianYamsuan: parseInt(e.target.value),
+									})
+								}
+								className="w-full border rounded p-2 mb-4"
+							/>
 
-						<label className="block">Rodel Espinola:</label>
-						<input
-							type="number"
-							value={votes.rodelEspinola}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									rodelEspinola: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Rodel Espinola:</label>
+							<input
+								type="number"
+								value={votes.rodelEspinola}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										rodelEspinola: parseInt(e.target.value),
+									})
+								}
+								className="w-full border rounded p-2 mb-4"
+							/>
 
-						<label className="block">Florentino Baguio:</label>
-						<input
-							type="number"
-							value={votes.florentinoBaguio}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									florentinoBaguio: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Florentino Baguio:</label>
+							<input
+								type="number"
+								value={votes.florentinoBaguio}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										florentinoBaguio: parseInt(e.target.value),
+									})
+								}
+								className="w-full border rounded p-2 mb-4"
+							/>
 
-						<label className="block">Rolando Aguilar:</label>
-						<input
-							type="number"
-							value={votes.rolandoAguilar}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									rolandoAguilar: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Rolando Aguilar:</label>
+							<input
+								type="number"
+								value={votes.rolandoAguilar}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										rolandoAguilar: parseInt(e.target.value),
+									})
+								}
+								className="w-full border rounded p-2 mb-4"
+							/>
 
-						<button
-							onClick={() => mutation.mutate()}
-							disabled={mutation.isPending}
-							className={`bg-green-600 text-white w-full p-2 rounded hover:bg-green-700 ${
-								mutation.isPending ? "opacity-50 cursor-not-allowed" : ""
-							}`}
-						>
-							{mutation.isPending ? "Submitting..." : "Cast Vote"}
-						</button>
+							<button
+								onClick={() => mutation.mutate()}
+								disabled={mutation.isPending}
+								className={`bg-green-600 text-white w-full p-2 rounded hover:bg-green-700 ${
+									mutation.isPending ? "opacity-50 cursor-not-allowed" : ""
+								}`}
+							>
+								{mutation.isPending ? "Submitting..." : "Cast Vote"}
+							</button>
+						</div>
 					</div>
 				</div>
-			</div>
+			</Suspense>
 		</RequireAuth>
 	);
 }
