@@ -137,8 +137,8 @@ export default function DashboardPage() {
 	};
 
 	return (
-		<RequireAuth>
-			<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<div>Loading...</div>}>
+			<RequireAuth>
 				<div className="flex items-center justify-center min-h-screen">
 					<div className="w-full max-w-md p-6 bg-white shadow rounded">
 						<div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
@@ -234,7 +234,7 @@ export default function DashboardPage() {
 						</div>
 					</div>
 				</div>
-			</Suspense>
-		</RequireAuth>
+			</RequireAuth>
+		</Suspense>
 	);
 }
