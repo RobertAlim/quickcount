@@ -7,6 +7,7 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 type RowType = {
 	barangay: string;
@@ -155,7 +156,14 @@ export default function DataTableTech({ data }: { data: RowType[] }) {
 												>
 													<td className="py-2 px-4">{row.barangay}</td>
 													<td className="py-2 px-4">{row.pollingPlace}</td>
-													<td className="py-2 px-4">{row.cluster}</td>
+													<td className="py-2 px-4">
+														<Link
+															className="text-green-700 font-semibold"
+															href={`/dashboard?clusterId=${row.cluster}`}
+														>
+															{row.cluster}
+														</Link>
+													</td>
 													<td className="py-2 px-4 text-right">
 														{Number(row.totalVoters).toLocaleString()}
 													</td>

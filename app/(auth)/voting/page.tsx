@@ -34,8 +34,6 @@ export default function Page() {
 	useEffect(() => {
 		const userToken = JSON.parse(localStorage.getItem("token") || "null");
 		setToken(userToken);
-
-		console.log("Token from localStorage:", userToken);
 	}, []);
 
 	const { data = [], isLoading } = useQuery<RowType[]>({

@@ -4,6 +4,7 @@ import RequireAuth from "@/components/auth/RequireAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ComboBox } from "@/components/ui/combobox";
+import { useSearchParams } from "next/navigation";
 
 type UserProps = {
 	id: number;
@@ -26,10 +27,33 @@ export default function DashboardPage() {
 	});
 	const [token, setToken] = useState<UserProps>();
 
+	const searchParams = useSearchParams();
+	const clusterIdFromUrl = searchParams.get("clusterId") || ""; // Get the clusterId from the URL
+
 	useEffect(() => {
 		const userToken = JSON.parse(localStorage.getItem("token") || "null");
 		setToken(userToken);
 	}, []);
+
+	// useEffect(() => {
+	// 	if (clusterIdFromUrl && token?.id) {
+	// 		setCluster(clusterIdFromUrl);
+	// 	}
+	// }, [clusterIdFromUrl, token]);
+
+	// useEffect(() => {
+	// 	if (cluster && token?.id) {
+	// 		handleVoteChange(cluster);
+	// 	}
+	// }, [cluster, token]);
+
+	useEffect(() => {
+		if (clusterIdFromUrl && token?.id) {
+			setCluster(clusterIdFromUrl); // Set the cluster state from the URL
+
+			handleVoteChange(clusterIdFromUrl); // Fetch the datasheet for the cluster
+		}
+	}, [clusterIdFromUrl, token, cluster]); // Update token when clusterId changes
 
 	const { data = [], isLoading } = useQuery({
 		queryKey: ["clusters"],
@@ -76,8 +100,6 @@ export default function DashboardPage() {
 	});
 
 	const handleVoteChange = async (value: string) => {
-		setCluster(value);
-
 		try {
 			const response = await fetch("/api/datasheet", {
 				method: "POST",
@@ -85,7 +107,18 @@ export default function DashboardPage() {
 				body: JSON.stringify({ userId: token?.id, clusterId: value }),
 			});
 
+			// alert("ERROR: " + response.error);
+
+			// Check if response is OK
+			// if (!response.ok) {
+			// 	const text = await response.text(); // read raw response
+			// 	console.error("Response not OK:", text);
+			// 	alert("Server error occurred:" + text);
+			// 	return;
+			// }
+
 			const result = await response.json();
+
 			if (result.error) {
 				alert(result.error);
 			} else {
@@ -113,7 +146,10 @@ export default function DashboardPage() {
 						<ComboBox
 							options={data}
 							value={cluster}
-							onChange={(val) => handleVoteChange(val)}
+							onChange={(val) => {
+								setCluster(val);
+								handleVoteChange(val);
+							}}
 							placeholder="Select cluster..."
 						/>
 
@@ -187,7 +223,7 @@ export default function DashboardPage() {
 						<button
 							onClick={() => mutation.mutate()}
 							disabled={mutation.isPending}
-							className={`bg-blue-600 text-white w-full p-2 rounded hover:bg-blue-700 ${
+							className={`bg-green-600 text-white w-full p-2 rounded hover:bg-green-700 ${
 								mutation.isPending ? "opacity-50 cursor-not-allowed" : ""
 							}`}
 						>

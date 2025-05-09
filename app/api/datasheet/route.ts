@@ -2,12 +2,20 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { datasheet, userAccess } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import cluster from "cluster";
 
 export async function POST(req: Request) {
 	const { userId, clusterId } = await req.json();
 
 	const parsedUserId = Number(userId);
 	const parsedClusterId = Number(clusterId);
+
+	if (!userId || !clusterId) {
+		return NextResponse.json(
+			{ error: "Missing userId or clusterId " },
+			{ status: 400 }
+		);
+	}
 
 	const foundCluster = await db
 		.select({
