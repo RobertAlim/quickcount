@@ -40,14 +40,11 @@ export default function Page() {
 		queryKey: ["votecast"],
 		enabled: !!token,
 		queryFn: async () => {
-			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_API_URL}/api/technical`,
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ userId: token?.id, role: token?.role }),
-				}
-			);
+			const response = await fetch(`/api/technical`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ userId: token?.id, role: token?.role }),
+			});
 
 			if (!response.ok) {
 				console.error("Failed to fetch datasheet");
