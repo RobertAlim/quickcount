@@ -67,78 +67,72 @@ export default function DataTableTech({ data }: { data: RowType[] }) {
 	return (
 		<div className="relative">
 			{/* Sticky total header row */}
-			<div className="sticky top-0 z-50 bg-amber-100 border-b shadow-sm">
+			<div className="sticky top-0 z-50 bg-amber-100 border-b shadow-sm px-6">
 				<table className="w-full table-fixed text-lg">
 					<thead>
 						<tr>
-							<th className="w-[16%] text-left font-bold pl-7">TOTAL</th>
-							<th className="w-[12%]"></th>
-							<th className="w-[12%]"></th>
-							<th className="w-[12%] text-right text-2xl font-bold pr-4">
-								{overall.total_voters.toLocaleString()}
-							</th>
-							<th className="w-[12%] text-right text-2xl font-bold pr-7">
-								{overall.gus_tambunting.toLocaleString()}
-							</th>
-							<th className="w-[12%] text-right text-2xl font-bold pr-11">
-								{overall.brian_yamsuan.toLocaleString()}
-							</th>
-							<th className="w-[12%] text-right text-2xl font-bold pr-15">
-								{overall.rodel_espinola.toLocaleString()}
-							</th>
-							<th className="w-[12%] text-right text-2xl font-bold pr-15">
-								{overall.florentino_baguio.toLocaleString()}
-							</th>
-							<th className="w-[12%] text-right text-2xl font-bold pr-15">
-								{overall.rolando_aguilar.toLocaleString()}
-							</th>
+							<th className="w-[15%] text-left font-bold"></th>
+							<th className="w-[25%]"></th>
+							<th className="w-[10%]"></th>
+
+							<th className="w-[10%] text-right text-xl font-bold">GUS</th>
+							<th className="w-[10%] text-right text-xl font-bold">YAMSUAN</th>
+							<th className="w-[10%] text-right text-xl font-bold">ESPINOLA</th>
+							<th className="w-[10%] text-right text-xl font-bold">BAGUIO</th>
+							<th className="w-[10%] text-right text-xl font-bold">AGUILAR</th>
 						</tr>
 					</thead>
+					<tbody>
+						<tr>
+							<td className="w-[15%] text-left font-bold">TOTAL</td>
+							<td className="w-[25%]"></td>
+							<td className="w-[10%]"></td>
+							<td className="w-[10%] text-right text-2xl font-bold">
+								{overall.gus_tambunting.toLocaleString()}
+							</td>
+							<td className="w-[10%] text-right text-2xl font-bold">
+								{overall.brian_yamsuan.toLocaleString()}
+							</td>
+							<td className="w-[10%] text-right text-2xl font-bold">
+								{overall.rodel_espinola.toLocaleString()}
+							</td>
+							<td className="w-[10%] text-right text-2xl font-bold">
+								{overall.florentino_baguio.toLocaleString()}
+							</td>
+							<td className="w-[10%] text-right text-2xl font-bold">
+								{overall.rolando_aguilar.toLocaleString()}
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			<Accordion type="multiple" className="overflow-x-auto">
 				{groupedData.map((barangay) => (
 					<AccordionItem value={barangay.barangay} key={barangay.barangay}>
-						<AccordionTrigger className="text-sm font-semibold bg-green-50 hover:bg-green-100 hover:no-underline focus:outline-none focus:bg-green-100 px-7">
+						<AccordionTrigger className="text-sm font-semibold bg-green-50 hover:bg-green-100 hover:no-underline focus:outline-none focus:bg-green-100 px-6">
 							<table className="w-full table-fixed text-sm">
 								<thead>
 									<tr className="text-left border-b">
-										<th className="w-[16%]">{barangay.barangay}</th>
-										<th className="w-[12%]">Polling Place</th>
-										<th className="w-[12%]">Cluster</th>
-										<th className="w-[12%] text-right">Total Voters</th>
-										<th className="w-[12%] text-right">TAMBUNTING</th>
-										<th className="w-[12%] text-right">YAMSUAN</th>
-										<th className="w-[12%] text-right">ESPINOLA</th>
-										<th className="w-[12%] text-right">BAGUIO</th>
-										<th className="w-[12%] text-right">AGUILAR</th>
+										<th className="w-[15%]">{barangay.barangay}</th>
+										<th className="w-[25%]">Polling Place</th>
+										<th className="w-[10%] text-center">Cluster</th>
+										<th className="w-[10%] text-right">
+											{barangay.totals.gusTambunting.toLocaleString()}
+										</th>
+										<th className="w-[10%] text-right">
+											{barangay.totals.brianYamsuan.toLocaleString()}
+										</th>
+										<th className="w-[10%] text-right">
+											{barangay.totals.rodelEspinola.toLocaleString()}
+										</th>
+										<th className="w-[10%] text-right">
+											{barangay.totals.florentinoBaguio.toLocaleString()}
+										</th>
+										<th className="w-[10%] text-right">
+											{barangay.totals.rolandoAguilar.toLocaleString()}
+										</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr className="border-t text-lg">
-										<td className="w=[16%]"></td>
-										<td className="w-[12%] text-right"></td>
-										<td className="w-[12%] text-right"></td>
-										<td className="w-[12%] text-right">
-											{overall.total_voters.toLocaleString()}
-										</td>
-										<td className="w-[12%] text-right">
-											{barangay.totals.gusTambunting.toLocaleString()}
-										</td>
-										<td className="w-[12%] text-right">
-											{barangay.totals.brianYamsuan.toLocaleString()}
-										</td>
-										<td className="w-[12%] text-right">
-											{barangay.totals.rodelEspinola.toLocaleString()}
-										</td>
-										<td className="w-[12%] text-right">
-											{barangay.totals.florentinoBaguio.toLocaleString()}
-										</td>
-										<td className="w-[12%] text-right">
-											{barangay.totals.rolandoAguilar.toLocaleString()}
-										</td>
-									</tr>
-								</tbody>
 							</table>
 						</AccordionTrigger>
 						<AccordionContent>
@@ -154,9 +148,9 @@ export default function DataTableTech({ data }: { data: RowType[] }) {
 														(index % 2 === 0 ? "bg-white" : "bg-gray-50")
 													}
 												>
-													<td className="py-2 px-4">{row.barangay}</td>
-													<td className="py-2 px-4">{row.pollingPlace}</td>
-													<td className="py-2 px-4">
+													<td className="w-[15%]">{row.barangay}</td>
+													<td className="w-[25%]">{row.pollingPlace}</td>
+													<td className="w-[10%] text-center">
 														<Link
 															className="text-green-700 font-semibold"
 															href={`/dashboard?clusterId=${row.cluster}`}
@@ -164,22 +158,20 @@ export default function DataTableTech({ data }: { data: RowType[] }) {
 															{row.cluster}
 														</Link>
 													</td>
-													<td className="py-2 px-4 text-right">
-														{Number(row.totalVoters).toLocaleString()}
-													</td>
-													<td className="py-2 px-4 text-right">
+
+													<td className="w-[10%] text-right">
 														{Number(row.gusTambunting).toLocaleString()}
 													</td>
-													<td className="py-2 px-4 text-right">
+													<td className="w-[10%] text-right">
 														{Number(row.brianYamsuan).toLocaleString()}
 													</td>
-													<td className="py-2 px-4 text-right">
+													<td className="w-[10%] text-right">
 														{Number(row.rodelEspinola).toLocaleString()}
 													</td>
-													<td className="py-2 px-4 text-right">
+													<td className="w-[10%] text-right">
 														{Number(row.florentinoBaguio).toLocaleString()}
 													</td>
-													<td className="py-2 px-4 text-right">
+													<td className="w-[10%] text-right">
 														{Number(row.rolandoAguilar).toLocaleString()}
 													</td>
 												</tr>

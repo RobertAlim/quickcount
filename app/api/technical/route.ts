@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { datasheet, userAccess } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 
 export async function POST(req: Request) {
 	const { userId, role } = await req.json();
@@ -22,13 +22,17 @@ export async function POST(req: Request) {
 	let data;
 
 	if (role === "Administrator") {
-		data = await db.select(fields).from(datasheet);
+		data = await db
+			.select(fields)
+			.from(datasheet)
+			.orderBy(asc(datasheet.cluster));
 	} else {
 		data = await db
 			.select(fields)
 			.from(userAccess)
 			.leftJoin(datasheet, eq(userAccess.clusterId, datasheet.cluster))
-			.where(eq(userAccess.userId, userId));
+			.where(eq(userAccess.userId, userId))
+			.orderBy(asc(datasheet.cluster));
 	}
 
 	return NextResponse.json(data);

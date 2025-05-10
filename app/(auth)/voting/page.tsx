@@ -26,6 +26,7 @@ type RowType = {
 	rodelEspinola: number;
 	florentinoBaguio: number;
 	rolandoAguilar: number;
+	totalVotesCast: number;
 };
 
 export default function Page() {

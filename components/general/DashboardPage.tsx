@@ -23,6 +23,7 @@ interface Props {
 export default function DashboardPage({ clusterIdFromUrl }: Props) {
 	const [cluster, setCluster] = useState("");
 	const [isCast, setIsCast] = useState(false);
+	const [noOfVoters, setNoOfVoters] = useState(0);
 	const [votes, setVotes] = useState({
 		gusTambunting: 0,
 		brianYamsuan: 0,
@@ -71,14 +72,15 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 				body: JSON.stringify({
 					userId: token?.id, // Change this to the logged-in user ID
 					clusterId: parseInt(cluster),
+					noOfVoters,
 					votes,
 				}),
 			});
 
 			const result = await response.json();
 
-			if (result.error) throw new Error("Failed to submit vote");
-
+			if (result.error) throw new Error(result.error);
+			setIsCast(true);
 			return result;
 		},
 		onSuccess: () => {
@@ -103,6 +105,7 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 				// alert(result.error);
 			} else {
 				setIsCast(result.cluster.isCast);
+				setNoOfVoters(result.cluster.total_voters);
 				setVotes({
 					gusTambunting: result.cluster.gusTambunting,
 					brianYamsuan: result.cluster.brianYamsuan,

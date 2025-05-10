@@ -25,16 +25,18 @@ export default function LoginPage() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ username, password }),
 			});
-			if (!res.ok) throw new Error("Login failed");
+			if (!res.ok) {
+				const errorData = await res.json();
+				throw new Error(errorData.error || "Login failed");
+			}
 			return res.json();
 		},
 		onSuccess: (data) => {
-			// console.log("Login successfuly:", data.user);
 			localStorage.setItem("token", JSON.stringify(data.user)); // save session
 			router.push("/dashboard"); // redirect to dashboard
 		},
 		onError: (err) => {
-			alert("Invalid credentials");
+			alert(err);
 		},
 	});
 

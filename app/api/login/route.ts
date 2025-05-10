@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { users, userRole, roles } from "@/db/schema";
+import { users, userRole, roles, userAccess } from "@/db/schema";
 import { eq, ilike } from "drizzle-orm";
 
 export async function POST(req: Request) {
@@ -22,6 +22,20 @@ export async function POST(req: Request) {
 
 	if (!foundUser[0] || foundUser[0].password !== password) {
 		return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+	}
+
+	if (foundUser[0].role === "Watcher") {
+		const foundAccess = await db
+			.select()
+			.from(userAccess)
+			.where(eq(userAccess.userId, foundUser[0]?.id));
+
+		if (!foundAccess[0]) {
+			return NextResponse.json(
+				{ error: "User access not found. You are not authorized." },
+				{ status: 403 }
+			);
+		}
 	}
 
 	return NextResponse.json({ message: "Login successful", user: foundUser[0] });

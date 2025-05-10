@@ -5,10 +5,26 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
 	try {
-		const { userId, clusterId, votes } = await req.json();
+		const { userId, clusterId, noOfVoters, votes } = await req.json();
 
 		if (!userId || !clusterId || !votes) {
 			return NextResponse.json({ error: "Missing data" }, { status: 400 });
+		}
+
+		if (
+			votes.gusTambunting +
+				votes.brianYamsuan +
+				votes.rodelEspinola +
+				votes.florentinoBaguio +
+				votes.rolandoAguilar >
+			noOfVoters
+		) {
+			return NextResponse.json(
+				{
+					error: "Votes exceed the number of voters",
+				},
+				{ status: 400 }
+			);
 		}
 
 		const result = await db
