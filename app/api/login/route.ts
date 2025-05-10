@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { users, userRole, roles } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, ilike } from "drizzle-orm";
 
 export async function POST(req: Request) {
 	const { username, password } = await req.json();
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 		.from(users)
 		.leftJoin(userRole, eq(users.id, userRole.userId))
 		.leftJoin(roles, eq(userRole.roleId, roles.id))
-		.where(eq(users.username, username));
+		.where(ilike(users.username, username));
 
 	if (!foundUser[0] || foundUser[0].password !== password) {
 		return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
