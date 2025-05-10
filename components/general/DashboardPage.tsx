@@ -4,6 +4,7 @@ import RequireAuth from "@/components/auth/RequireAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ComboBox } from "@/components/ui/combobox";
+import { boolean } from "drizzle-orm/gel-core";
 
 type UserProps = {
 	id: number;
@@ -21,6 +22,7 @@ interface Props {
 
 export default function DashboardPage({ clusterIdFromUrl }: Props) {
 	const [cluster, setCluster] = useState("");
+	const [isCast, setIsCast] = useState(false);
 	const [votes, setVotes] = useState({
 		gusTambunting: 0,
 		brianYamsuan: 0,
@@ -41,7 +43,7 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 
 			handleVoteChange(clusterIdFromUrl); // Fetch the datasheet for the cluster
 		}
-	}, [clusterIdFromUrl, token, cluster]); // Update token when clusterId changes
+	}, [clusterIdFromUrl, token]); // Update token when clusterId changes
 
 	const { data = [], isLoading } = useQuery({
 		queryKey: ["clusters"],
@@ -95,21 +97,12 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 				body: JSON.stringify({ userId: token?.id, clusterId: value }),
 			});
 
-			// alert("ERROR: " + response.error);
-
-			// Check if response is OK
-			// if (!response.ok) {
-			// 	const text = await response.text(); // read raw response
-			// 	console.error("Response not OK:", text);
-			// 	alert("Server error occurred:" + text);
-			// 	return;
-			// }
-
 			const result = await response.json();
 
 			if (result.error) {
-				alert(result.error);
+				// alert(result.error);
 			} else {
+				setIsCast(result.cluster.isCast);
 				setVotes({
 					gusTambunting: result.cluster.gusTambunting,
 					brianYamsuan: result.cluster.brianYamsuan,
@@ -141,82 +134,97 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 							placeholder="Select cluster..."
 						/>
 
-						<h2 className="text-lg font-semibold mb-2">Candidates</h2>
+						<fieldset disabled={token?.role === "Watcher" && isCast}>
+							<h2 className="text-lg font-semibold mb-2">Candidates</h2>
+							<label className="block">Gus Tambunting:</label>
+							<input
+								type="number"
+								value={votes.gusTambunting}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										gusTambunting: parseInt(e.target.value),
+									})
+								}
+								className={`w-full border rounded p-2 mb-4 ${
+									token?.role === "Watcher" && isCast ? "bg-gray-200" : ""
+								}`}
+							/>
 
-						<label className="block">Gus Tambunting:</label>
-						<input
-							type="number"
-							value={votes.gusTambunting}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									gusTambunting: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Brian Yamsuan:</label>
+							<input
+								type="number"
+								value={votes.brianYamsuan}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										brianYamsuan: parseInt(e.target.value),
+									})
+								}
+								className={`w-full border rounded p-2 mb-4 ${
+									token?.role === "Watcher" && isCast ? "bg-gray-200" : ""
+								}`}
+							/>
 
-						<label className="block">Brian Yamsuan:</label>
-						<input
-							type="number"
-							value={votes.brianYamsuan}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									brianYamsuan: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Rodel Espinola:</label>
+							<input
+								type="number"
+								value={votes.rodelEspinola}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										rodelEspinola: parseInt(e.target.value),
+									})
+								}
+								className={`w-full border rounded p-2 mb-4 ${
+									token?.role === "Watcher" && isCast ? "bg-gray-200" : ""
+								}`}
+							/>
 
-						<label className="block">Rodel Espinola:</label>
-						<input
-							type="number"
-							value={votes.rodelEspinola}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									rodelEspinola: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Florentino Baguio:</label>
+							<input
+								type="number"
+								value={votes.florentinoBaguio}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										florentinoBaguio: parseInt(e.target.value),
+									})
+								}
+								className={`w-full border rounded p-2 mb-4 ${
+									token?.role === "Watcher" && isCast ? "bg-gray-200" : ""
+								}`}
+							/>
 
-						<label className="block">Florentino Baguio:</label>
-						<input
-							type="number"
-							value={votes.florentinoBaguio}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									florentinoBaguio: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
+							<label className="block">Rolando Aguilar:</label>
+							<input
+								type="number"
+								value={votes.rolandoAguilar}
+								onChange={(e) =>
+									setVotes({
+										...votes,
+										rolandoAguilar: parseInt(e.target.value),
+									})
+								}
+								className={`w-full border rounded p-2 mb-4 ${
+									token?.role === "Watcher" && isCast ? "bg-gray-200" : ""
+								}`}
+							/>
 
-						<label className="block">Rolando Aguilar:</label>
-						<input
-							type="number"
-							value={votes.rolandoAguilar}
-							onChange={(e) =>
-								setVotes({
-									...votes,
-									rolandoAguilar: parseInt(e.target.value),
-								})
-							}
-							className="w-full border rounded p-2 mb-4"
-						/>
-
-						<button
-							onClick={() => mutation.mutate()}
-							disabled={mutation.isPending}
-							className={`bg-green-600 text-white w-full p-2 rounded hover:bg-green-700 ${
-								mutation.isPending ? "opacity-50 cursor-not-allowed" : ""
-							}`}
-						>
-							{mutation.isPending ? "Submitting..." : "Cast Vote"}
-						</button>
+							<button
+								onClick={() => mutation.mutate()}
+								disabled={mutation.isPending}
+								className={`w-full p-2 rounded text-white ${
+									token?.role === "Watcher" && isCast
+										? "bg-gray-500"
+										: "bg-green-600 hover:bg-green-700"
+								}   ${
+									mutation.isPending ? "opacity-50 cursor-not-allowed" : ""
+								}`}
+							>
+								{mutation.isPending ? "Submitting..." : "Cast Vote"}
+							</button>
+						</fieldset>
 					</div>
 				</div>
 			</div>

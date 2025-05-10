@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { datasheet, userAccess } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
-import cluster from "cluster";
 
 export async function POST(req: Request) {
 	const { userId, clusterId } = await req.json();
@@ -37,7 +36,7 @@ export async function POST(req: Request) {
 
 	if (!foundCluster[0]) {
 		return NextResponse.json(
-			{ error: "Invalid cluster" + parsedClusterId + " : " + parsedUserId },
+			{ error: "Invalid cluster" + foundCluster[0] },
 			{ status: 401 }
 		);
 	}

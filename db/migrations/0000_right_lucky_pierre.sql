@@ -44,8 +44,7 @@ CREATE TABLE "user_role" (
 --> statement-breakpoint
 CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"first_name" text NOT NULL,
-	"last_name" text NOT NULL,
+	"name" text NOT NULL,
 	"username" text,
 	"password" text
 );

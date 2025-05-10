@@ -9,8 +9,7 @@ export async function POST(req: Request) {
 	const foundUser = await db
 		.select({
 			id: users.id,
-			lastName: users.lastName,
-			firstName: users.firstName,
+			name: users.name,
 			username: users.username,
 			password: users.password,
 			roleId: roles.id,
