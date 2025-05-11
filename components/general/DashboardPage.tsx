@@ -4,7 +4,6 @@ import RequireAuth from "@/components/auth/RequireAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ComboBox } from "@/components/ui/combobox";
-import { boolean } from "drizzle-orm/gel-core";
 
 type UserProps = {
 	id: number;
@@ -100,12 +99,12 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 			});
 
 			const result = await response.json();
-
+			console.log("Fetched datasheet:", result.cluster.totalVoters);
 			if (result.error) {
 				// alert(result.error);
 			} else {
 				setIsCast(result.cluster.isCast);
-				setNoOfVoters(result.cluster.total_voters);
+				setNoOfVoters(result.cluster.totalVoters);
 				setVotes({
 					gusTambunting: result.cluster.gusTambunting,
 					brianYamsuan: result.cluster.brianYamsuan,

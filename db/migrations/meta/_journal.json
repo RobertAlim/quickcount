@@ -43,6 +43,13 @@
       "when": 1746840632874,
       "tag": "0005_fast_molecule_man",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1746941361022,
+      "tag": "0006_legal_sunset_bain",
+      "breakpoints": true
     }
   ]
 }

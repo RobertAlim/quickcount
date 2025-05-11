@@ -24,6 +24,7 @@ export async function POST(req: Request) {
 			rodelEspinola: datasheet.rodelEspinola,
 			florentinoBaguio: datasheet.florentinoBaguio,
 			rolandoAguilar: datasheet.rolandoAguilar,
+			totalVoters: datasheet.totalVoters,
 		})
 		.from(userAccess)
 		.leftJoin(datasheet, eq(userAccess.clusterId, datasheet.cluster))

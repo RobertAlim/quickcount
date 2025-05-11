@@ -63,6 +63,12 @@ export const settings = pgTable("settings", {
 	candidateLock: boolean("candidate_lock").default(false),
 });
 
+export const coordinator = pgTable("coordinator", {
+	id: serial("id").primaryKey(),
+	userId: integer("user_id"),
+	pollingPlace: text("polling_place").notNull(),
+});
+
 export type User = InferSelectModel<typeof users>;
 export type Role = InferSelectModel<typeof roles>;
 export type UserRole = InferSelectModel<typeof userRole>;

@@ -42,7 +42,13 @@ type GroupedData = {
 		rolandoAguilar: number;
 	}[];
 };
-export default function DataTableTech({ data }: { data: RowType[] }) {
+export default function DataTableTech({
+	data,
+	role,
+}: {
+	data: RowType[];
+	role: "Technical" | "Coordinator";
+}) {
 	const groupedData = groupDataByBarangay(data);
 
 	const overall = data.reduce(
@@ -151,12 +157,16 @@ export default function DataTableTech({ data }: { data: RowType[] }) {
 													<td className="w-[15%]">{row.barangay}</td>
 													<td className="w-[25%]">{row.pollingPlace}</td>
 													<td className="w-[10%] text-center">
-														<Link
-															className="text-green-700 font-semibold"
-															href={`/dashboard?clusterId=${row.cluster}`}
-														>
-															{row.cluster}
-														</Link>
+														{role === "Technical" ? (
+															<Link
+																className="text-green-700 font-semibold"
+																href={`/dashboard?clusterId=${row.cluster}`}
+															>
+																{row.cluster}
+															</Link>
+														) : (
+															<span>${row.cluster}</span>
+														)}
 													</td>
 
 													<td className="w-[10%] text-right">
@@ -208,7 +218,6 @@ export function groupDataByBarangay(data: RowType[]): GroupedData[] {
 		}
 
 		// Aggregate totals
-		grouped[row.barangay].totals.gusTambunting += row.gusTambunting;
 		grouped[row.barangay].totals.gusTambunting += row.gusTambunting;
 		grouped[row.barangay].totals.brianYamsuan += row.brianYamsuan;
 		grouped[row.barangay].totals.rodelEspinola += row.rodelEspinola;

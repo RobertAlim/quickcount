@@ -60,6 +60,9 @@ export default function Page() {
 	return token?.role === "Administrator" ? (
 		<DataTable data={data} />
 	) : (
-		<DataTableTech data={data} />
+		<DataTableTech
+			data={data}
+			role={token?.role as "Technical" | "Coordinator"}
+		/>
 	);
 }

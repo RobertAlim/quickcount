@@ -39,18 +39,6 @@ export function Navbar() {
 						Home
 					</Link>
 					<Link
-						href="/roles"
-						className="text-sm font-medium hover:text-green-500 transition-colors"
-					>
-						Roles and Access
-					</Link>
-					<Link
-						href="/candidate"
-						className="text-sm font-medium hover:text-green-500 transition-colors"
-					>
-						Candidates
-					</Link>
-					<Link
 						href="/voting"
 						className="text-sm font-medium hover:text-green-500 transition-colors"
 					>

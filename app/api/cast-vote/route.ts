@@ -11,14 +11,16 @@ export async function POST(req: Request) {
 			return NextResponse.json({ error: "Missing data" }, { status: 400 });
 		}
 
-		if (
+		const totalVotes =
 			votes.gusTambunting +
-				votes.brianYamsuan +
-				votes.rodelEspinola +
-				votes.florentinoBaguio +
-				votes.rolandoAguilar >
-			noOfVoters
-		) {
+			votes.brianYamsuan +
+			votes.rodelEspinola +
+			votes.florentinoBaguio +
+			votes.rolandoAguilar;
+
+		console.log("Total votes:", totalVotes, votes.gusTambunting, noOfVoters);
+
+		if (totalVotes > noOfVoters) {
 			return NextResponse.json(
 				{
 					error: "Votes exceed the number of voters",
