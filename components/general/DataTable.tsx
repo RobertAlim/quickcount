@@ -59,7 +59,7 @@ export default function DataTable({ data }: { data: RowType[] }) {
 		s
 			.toLowerCase()
 			.replace(/\b\w/g, (c) => c.toUpperCase())
-			.replace(/\b(Ii|Bf|Sm)\b/g, (x) => x.toUpperCase());
+			.replace(/\b(Ii|Iv|Pnhs|Ups|Bf|Sm)\b/g, (x) => x.toUpperCase());
 
 	const [expandedPollingPlaces, setExpandedPollingPlaces] = useState<
 		Record<string, boolean>
@@ -195,7 +195,7 @@ export default function DataTable({ data }: { data: RowType[] }) {
 								</thead>
 							</table>
 						</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent asChild>
 							<Card className="border bg-white shadow-sm">
 								<CardContent>
 									<table className="w-full table-fixed text-sm">
@@ -247,7 +247,7 @@ export default function DataTable({ data }: { data: RowType[] }) {
 												return (
 													<React.Fragment key={idx}>
 														<tr
-															className="cursor-pointer bg-blue-100 hover:bg-blue-200 font-semibold"
+															className="cursor-pointer bg-blue-100 hover:bg-blue-200 font-semibold border-t"
 															onClick={() =>
 																togglePollingPlace(
 																	`${barangay.barangay}-${place.pollingPlace}`
@@ -295,8 +295,13 @@ export default function DataTable({ data }: { data: RowType[] }) {
 																	cluster.rolandoAguilar;
 
 																return (
-																	<tr key={cid} className="bg-gray-50 border-t">
-																		<td className="pl-8 font-semibold">
+																	<tr
+																		key={cid}
+																		className={`bg-gray-50 ${
+																			cid % 2 === 0 ? "bg-white" : "bg-gray-100"
+																		} border-t`}
+																	>
+																		<td className="pl-8 font-semibold text-center">
 																			{cluster.clusterId}
 																		</td>
 																		<td className="text-right">

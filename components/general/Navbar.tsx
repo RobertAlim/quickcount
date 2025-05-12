@@ -40,12 +40,12 @@ export function Navbar() {
 					>
 						Home
 					</Link>
-					<Link
+					{/* <Link
 						href="/watcher"
 						className="text-sm font-medium hover:text-green-500 transition-colors"
 					>
 						Set Watcher
-					</Link>
+					</Link> */}
 					{role !== "Watcher" ? (
 						<Link
 							href="/voting"
