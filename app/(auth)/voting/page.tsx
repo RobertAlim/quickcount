@@ -40,6 +40,7 @@ export default function Page() {
 	const { data = [], isLoading } = useQuery<RowType[]>({
 		queryKey: ["votecast"],
 		enabled: !!token,
+		refetchInterval: 10000, // Poll every 10 seconds
 		queryFn: async () => {
 			const response = await fetch(`/api/technical`, {
 				method: "POST",

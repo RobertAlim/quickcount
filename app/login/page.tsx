@@ -33,7 +33,11 @@ export default function LoginPage() {
 		},
 		onSuccess: (data) => {
 			localStorage.setItem("token", JSON.stringify(data.user)); // save session
-			router.push("/dashboard"); // redirect to dashboard
+			if (data.user.role === "Coordinator") {
+				router.push("/voting"); // redirect to voting page
+			} else {
+				router.push("/dashboard"); // redirect to dashboard
+			}
 		},
 		onError: (err) => {
 			alert(err);

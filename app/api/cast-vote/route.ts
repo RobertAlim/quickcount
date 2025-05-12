@@ -18,8 +18,6 @@ export async function POST(req: Request) {
 			votes.florentinoBaguio +
 			votes.rolandoAguilar;
 
-		console.log("Total votes:", totalVotes, votes.gusTambunting, noOfVoters);
-
 		if (totalVotes > noOfVoters) {
 			return NextResponse.json(
 				{

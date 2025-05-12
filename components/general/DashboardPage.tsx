@@ -95,13 +95,17 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 			const response = await fetch("/api/datasheet", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ userId: token?.id, clusterId: value }),
+				body: JSON.stringify({
+					userId: token?.id,
+					clusterId: value,
+					role: token?.role,
+				}),
 			});
 
 			const result = await response.json();
-			console.log("Fetched datasheet:", result.cluster.totalVoters);
+			console.log("Datasheet data", result.cluster);
 			if (result.error) {
-				// alert(result.error);
+				alert(result.error);
 			} else {
 				setIsCast(result.cluster.isCast);
 				setNoOfVoters(result.cluster.totalVoters);
@@ -120,12 +124,12 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 
 	return (
 		<RequireAuth>
-			<div className="flex items-center justify-center min-h-screen">
-				<div className="w-full max-w-md p-6 bg-white shadow rounded">
-					<div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
+			<div className="flex items-start justify-center min-h-screen mt-10">
+				<div className="w-full max-w-md bg-white shadow rounded">
+					<div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
 						<h1 className="text-2xl font-bold mb-4">Cast Your Vote</h1>
 
-						<label className="block mb-2">Cluster Number:</label>
+						<label className="block mb-2 font-semibold">Cluster Number:</label>
 						<ComboBox
 							options={data}
 							value={cluster}
@@ -138,7 +142,7 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 
 						<fieldset disabled={token?.role === "Watcher" && isCast}>
 							<h2 className="text-lg font-semibold mb-2">Candidates</h2>
-							<label className="block">Gus Tambunting:</label>
+							<label className="block font-semibold">Gus Tambunting:</label>
 							<input
 								type="number"
 								value={votes.gusTambunting}
@@ -153,7 +157,7 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 								}`}
 							/>
 
-							<label className="block">Brian Yamsuan:</label>
+							<label className="block font-semibold">Brian Yamsuan:</label>
 							<input
 								type="number"
 								value={votes.brianYamsuan}
@@ -168,7 +172,7 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 								}`}
 							/>
 
-							<label className="block">Rodel Espinola:</label>
+							<label className="block font-semibold">Rodel Espinola:</label>
 							<input
 								type="number"
 								value={votes.rodelEspinola}
@@ -183,7 +187,7 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 								}`}
 							/>
 
-							<label className="block">Florentino Baguio:</label>
+							<label className="block font-semibold">Florentino Baguio:</label>
 							<input
 								type="number"
 								value={votes.florentinoBaguio}
@@ -198,7 +202,7 @@ export default function DashboardPage({ clusterIdFromUrl }: Props) {
 								}`}
 							/>
 
-							<label className="block">Rolando Aguilar:</label>
+							<label className="block font-semibold">Rolando Aguilar:</label>
 							<input
 								type="number"
 								value={votes.rolandoAguilar}

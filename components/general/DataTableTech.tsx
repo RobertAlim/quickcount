@@ -146,46 +146,48 @@ export default function DataTableTech({
 								<CardContent>
 									<table className="w-full table-fixed text-sm">
 										<tbody>
-											{data.map((row, index) => (
-												<tr
-													key={index}
-													className={
-														"border-b " +
-														(index % 2 === 0 ? "bg-white" : "bg-gray-50")
-													}
-												>
-													<td className="w-[15%]">{row.barangay}</td>
-													<td className="w-[25%]">{row.pollingPlace}</td>
-													<td className="w-[10%] text-center">
-														{role === "Technical" ? (
-															<Link
-																className="text-green-700 font-semibold"
-																href={`/dashboard?clusterId=${row.cluster}`}
-															>
-																{row.cluster}
-															</Link>
-														) : (
-															<span>${row.cluster}</span>
-														)}
-													</td>
+											{data
+												.filter((row) => row.barangay === barangay.barangay)
+												.map((row, index) => (
+													<tr
+														key={index}
+														className={
+															"border-b " +
+															(index % 2 === 0 ? "bg-white" : "bg-gray-50")
+														}
+													>
+														<td className="w-[15%]">{row.barangay}</td>
+														<td className="w-[25%]">{row.pollingPlace}</td>
+														<td className="w-[10%] text-center">
+															{role === "Technical" ? (
+																<Link
+																	className="text-green-700 font-semibold"
+																	href={`/dashboard?clusterId=${row.cluster}`}
+																>
+																	{row.cluster}
+																</Link>
+															) : (
+																<span>{row.cluster}</span>
+															)}
+														</td>
 
-													<td className="w-[10%] text-right">
-														{Number(row.gusTambunting).toLocaleString()}
-													</td>
-													<td className="w-[10%] text-right">
-														{Number(row.brianYamsuan).toLocaleString()}
-													</td>
-													<td className="w-[10%] text-right">
-														{Number(row.rodelEspinola).toLocaleString()}
-													</td>
-													<td className="w-[10%] text-right">
-														{Number(row.florentinoBaguio).toLocaleString()}
-													</td>
-													<td className="w-[10%] text-right">
-														{Number(row.rolandoAguilar).toLocaleString()}
-													</td>
-												</tr>
-											))}
+														<td className="w-[10%] text-right">
+															{Number(row.gusTambunting).toLocaleString()}
+														</td>
+														<td className="w-[10%] text-right">
+															{Number(row.brianYamsuan).toLocaleString()}
+														</td>
+														<td className="w-[10%] text-right">
+															{Number(row.rodelEspinola).toLocaleString()}
+														</td>
+														<td className="w-[10%] text-right">
+															{Number(row.florentinoBaguio).toLocaleString()}
+														</td>
+														<td className="w-[10%] text-right">
+															{Number(row.rolandoAguilar).toLocaleString()}
+														</td>
+													</tr>
+												))}
 										</tbody>
 									</table>
 								</CardContent>
